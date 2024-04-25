@@ -1,0 +1,12 @@
+.data  # inicia as variaveis
+	ola: .ascii "Ola Mundo\n" # coloca a string na variavel ola
+
+.text # começo do codigo
+	main:
+		la a0, ola # load adress de ola na variavel a1
+		addi a7, zero, 4 # codigo pra imprimir a string
+		ecall # faz o sistema chamar
+		
+		addi a7, zero, 10 # codigo para sair
+		ecall # faz o sistema chamar
+	

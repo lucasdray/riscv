@@ -1,0 +1,30 @@
+.data
+	quebra: .ascii "\n"
+
+.text
+	#numero 1
+	li a7, 5 # ler input
+	ecall #chama o sistema
+	mv t0, a0 # salva o valor lido no t0
+	
+	#numero 2
+	li a7, 5 # ler o input
+	ecall #chama o sistema
+	mv t1, a0 #salva o valor lido no t1
+	
+	add t2, t0, t1 #soma o valor de t0 e t1 e armazena no a0
+	la t3, quebra # salva a quebra de linha em t3
+	
+	mv a0, t2 # adiciona o valor da soma com a quebra de linha em a0
+	li a7, 1 # print inteiro
+	ecall #chama o sistema
+	
+	mv a0, t3 # adiciona o valor da string quebra em a0
+	li a7, 4 # print string \n
+	ecall #chama o sistema
+	
+	
+	
+	
+	li a7, 10 # codigo para sair
+	ecall # chama sistema

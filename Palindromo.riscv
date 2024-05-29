@@ -1,0 +1,50 @@
+.data
+quebradelinha: .string "\n"
+palavra: .space 1000
+
+.text
+
+# ler a quantidade de caracteres
+li a7, 5 #lê um inteiro
+ecall #chamada de sistema
+mv s0, a0 #move o valor de a0 para s0 | quantidade de caracteres
+
+
+addi a1, s0, 2 # salva em a1 o valor maximo pra ler string e adiciona 2 por conta do /0
+
+# ler a palavra
+la a0, palavra # salva o endereço de gabarito em a0, para quando ler a string ela ser armazenada em resposta
+li a7, 8 #lê uma string sendo a0 = endereço onde vai ser armazenado a1 = valor maximo a ser lido (lembrando que sempre terminar com /n e tem q ter espaço pra isso)
+ecall #chamada de sistema
+
+mv s1, a0 # define o conteudo de s1 como o inicio da palavra lida
+mv s2, a0 # define o conteudo de s1 como o inicio da palavra lida
+add s2,s2,s0 # adiciona o valor da quantidade de letras
+addi s2,s2,-1 # diminui um pra s2 ser igual ao ultimo caractere da palavra
+
+
+while:
+	bgt s1,s2 palindromo # se s1 e s2 tiverem o mesmo valor terminou de percorrer a palavra
+	lb s3, (s1) #caracter da palavra
+ 	lb s4, (s2) #caracter da palavra
+ 	bne s3,s4 notpalindromo # se a letra de s3 e a letra de s4 != não é palindromo e jump
+  	addi s1,s1,1 # avanca para proximo caracter
+	addi s2,s2,-1 # volta um caractere
+	
+	j while # continua o loop
+
+notpalindromo:
+	li a0,0 # seta o valor como 0
+	j exit
+	
+palindromo:
+	li a0,1 # seta o valor como 1
+	
+exit:
+	li a7, 1 # print int
+	ecall # chama o sistema
+	
+	la a0, quebradelinha #quebra de linha
+	li a7, 4 #printa uma string
+	ecall #chamada de sistema
+	

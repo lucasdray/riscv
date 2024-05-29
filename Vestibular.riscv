@@ -1,0 +1,55 @@
+.data
+quebradelinha: .string "\n"
+resposta: .space 1000
+gabarito: .space 1000
+
+.text
+# ler quantidade de questões
+li a7, 5 #lê um inteiro
+ecall #chamada de sistema
+mv s0, a0 #move o valor de a0 para s0 | quantidade de questoes
+
+
+addi a1, s0, 2 # salva em a1 o valor maximo pra ler string e adiciona 2 por conta do /0
+
+# ler o gabarito
+la a0, gabarito # salva o endereço de gabarito em a0, para quando ler a string ela ser armazenada em resposta
+li a7, 8 #lê uma string sendo a0 = endereço onde vai ser armazenado a1 = valor maximo a ser lido (lembrando que sempre terminar com /n e tem q ter espaço pra isso)
+ecall #chamada de sistema
+mv s1, a0 #move o valor de a0 para s1 para poder fazer operações de comparação 
+
+# ler a resposta
+la a0, resposta # salva o endereço de gabarito em a0, para quando ler a string ela ser armazenada em resposta
+li a7, 8 #lê uma string sendo a0 = endereço onde vai ser armazenado a1 = valor maximo a ser lido (lembrando que sempre terminar com /n e tem q ter espaço pra isso)
+ecall #chamada de sistema
+mv s2, a0 #move o valor de a0 para s2 para poder fazer operações de comparação 
+
+# loop de verificação de resposta certa 
+while: 
+	bge t1, s0, done # pula para done se contador (t1) for igual ao numero de caracteres s0
+	lb s3, (s1) # ler caractere do gabarito
+ 	lb s4, (s2) # ler caractere da resposta
+	bne s3, s4, notequal # se a resposta for diferente do gabarito pula a linha que conta os acertos
+	addi s5, s5, 1 # contador de acertos
+	notequal:
+	addi s1, s1, 1 # pula para o proximo caractere de gabarito
+	addi s2, s2, 1 # pula para o proximo caractere de resposta
+	addi t1, t1, 1 # contador + 1
+	j while
+	
+# print
+done:
+	mv a0,s5 # move a quantidade de respostas certas para a0
+	li a7, 1 # print int
+	ecall # chama o sistema
+	
+	la a0, quebradelinha #quebra de linha
+	li a7, 4 #printa uma string
+	ecall #chamada de sistema
+	
+	
+	li a7, 10 # codigo para sair
+	ecall # chama sistema
+	
+	
+

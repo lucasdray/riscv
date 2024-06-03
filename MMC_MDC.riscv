@@ -1,0 +1,63 @@
+.data
+	invalida: .asciz "Entrada invalida."
+	quebradelinha: .asciz "\n"
+.text
+	li a7, 5 # ler inteiro
+	ecall # chama sistema
+	mv s0,a0 #copia o valor de a0 (input) para s0
+	
+	li a7, 5 # ler int
+	ecall # chama o sistema
+	mv s1,a0 #copia o valor de a0 (input) para s1
+	
+	li t0,1 # carregar valor 1 em t0
+	ble,s0,t0, invalido # se s0 <= 1 pula pra invalido
+	ble,s1,t0, invalido # se s1 <= 1 pula pra invalido
+	
+	mul s2,s0,s1 # multiplica s0 e s1 e armazena em s2
+	bge s1,s0, mdc # pula pra mdc se s1 for maior ou igual a s0
+	mv t0,s0 # copia valor de s0 para t0
+	mv s0,s1 # copia o valor de s1 para s0
+	mv s1,t0 # copia o valor de t0 para s1
+	
+
+#usando algoritmo de euclides 
+mdc:
+	rem t1, s1, s0 # divide o valor de s1 por s0 e armazena o resto em t1
+	beqz t1, mmc # pula pra mmc se t1 for igual a 0
+	mv s1, s0 # s1 = s0
+	mv s0,t1 # s0 = t1
+	j mdc
+
+#usando algoritmo de euclides mmc = ab / mdc(ab)
+mmc:
+	div t2, s2,s0 # divide s2 (s0 * s1) por t1 (mdc(s0,s1))
+	
+	li a7, 1 # print int
+	mv a0, s0 # passa o valor de t1(mdc) para a0
+	ecall # chama o sistema
+	
+	li a7, 4 # print string
+	la a0, quebradelinha
+	ecall # chama o sistem
+	
+	li a7, 1 # print int
+	mv a0,t2 # passa o valor de t2(mmc) para a0
+	ecall # chama o sistema
+	
+	j exit
+
+invalido:
+	li a7, 4 # print string
+	la a0, invalida # le o endereco de invalida em a0
+	ecall # chama o sistema
+	
+
+exit: 
+	li a7, 4 # print string
+	la a0, quebradelinha # atribui o endereço de quebra de linha a a0
+	ecall # chama o sistema
+	
+	li a7, 10 # fechar sistema
+	ecall #chama sistema
+	

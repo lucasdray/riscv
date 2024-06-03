@@ -1,0 +1,70 @@
+.data
+	quebradelinha: .string "\n"
+	sim: .string "sim"
+	nao: .string "nao"
+	invalida: .string "Entrada invalida."
+	
+.text
+
+	li a7, 5 # ler inteiro
+	ecall #chamar sistema
+	bgtz a0, valido # branch valido se input for maior que 0
+	
+	li a7, 4 # print string
+	la a0, invalida # le o endereço de invalida e atribui a a0
+	ecall # chama o sistema
+	
+	j exit # pula para exit
+	
+	
+	
+	
+	
+	
+valido:
+	mv s0, a0 # copiar valor de a0 para s0 (input)
+	li s1, 2 # atribui o valor 2 para s1
+	div s2,s0,s1 # raiz quadrada aproximada
+	
+	li t1, 1 # contador
+	li t2, 0 # quantidade de divisores se for maior que 2 não é primo
+	li t3, 1 # comparador da quantidade de divisores
+
+loop:
+	bgt t1,s2, testagem # pula para testagem se o contador for maior que a raiz quadrada do input
+	rem t4, a0,t1 # pega o resto de 13 dividido por t1 e atribui a t4
+	addi t1,t1,1 # adiciona 1 ao contador
+	beqz t4, restoZero # pula para restoZero se t4 for 0 
+	j loop # pula para loop
+	
+	
+restoZero:
+	addi, t2,t2,1 # adiciona 1 na quantidade de divisores totais
+	j loop # pula para loop
+
+
+
+testagem:
+	beq t2,t3, primo # pula para primo se t2 e t3 forem iguais
+	li a7, 4 # print string
+	la a0, nao # le o endereço de nao e atribui a a0
+	ecall # chama o sistema
+	j exit
+
+primo:
+	li a7, 4 # print string
+	la a0, sim # le o endereço de sim e atribui a a0
+	ecall # chama o sistema
+	j exit
+	
+
+
+	
+exit:
+	li a7, 4 # print string
+	la a0, quebradelinha # atribui o endereço de quebra de linha a a0
+	ecall
+	
+	li a7, 10 # fechar sistema
+	ecall #chama sistema
+	

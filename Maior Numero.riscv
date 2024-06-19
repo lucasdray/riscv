@@ -1,0 +1,47 @@
+.data
+	quebra: .ascii "\n"
+.text
+	#input quantidade de linhas
+	li a7, 5 # ler input
+	ecall #chama o sistema
+	mv t0, a0 # salva o valor lido no t0
+	
+	# input n1
+	li a7, 5 # ler input
+	ecall #chama o sistema
+	mv t1, a0 # salva o valor lido no t1
+	
+	li t3, 0
+	while:
+		addi t0,t0, -1 # diminuindo contador
+		beq  t0,t3,done # pula pra done se o contador chegar em 0
+		# input n2
+		li a7, 5 # ler input
+		ecall #chama o sistema
+		mv t2, a0 # salva o valor lido no t2
+		blt t1,t2,maior
+		j while # continua o laço while
+	
+		
+	maior: 
+		mv t1,t2
+		j while
+		
+	done:
+		# imprimir o maior numero
+		li a7, 1 # ler input
+		mv a0, t1 # salva o valor de t1 em a0
+		ecall #chama o sistema
+		
+		# imprimir /n
+		li a7, 4 # ler input
+		la a0, quebra # imprime a quebra de linha
+		ecall #chama o sistema
+		
+		
+		li a7, 10 # codigo para sair
+		ecall # chama sistema
+		
+
+		
+

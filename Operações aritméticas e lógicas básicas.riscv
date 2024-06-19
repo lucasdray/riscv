@@ -1,0 +1,181 @@
+.data
+	soma: .asciz "ADD: "
+	sub: .asciz "SUB: "
+	and: .asciz "AND: "
+	or: .asciz "OR: "
+	xor: .asciz "XOR: "
+	mascara: .asciz "MASK: "
+	deslocamentoe: .asciz "SLL("
+	deslocamentod: .asciz "SRL("
+	quebradelinha: .asciz "\n"
+	space: .asciz "): "
+
+.text
+	# inputs A,B,C
+	li a7, 5 # ler input A
+	ecall #chama o sistema
+	mv t0, a0 # salva o valor lido no t0
+	
+	li a7, 5 # ler input B
+	ecall #chama o sistema
+	mv t1, a0 # salva o valor lido no t1
+	
+	li a7, 5 # ler input C
+	ecall #chama o sistema
+	mv t2, a0 # salva o valor lido no t2
+	
+	
+	
+	# adicão A + B
+	add t3, t0,t1 # adição t0(A) e t1(B) salva no t3
+	
+	li a7, 4 # imprimir string
+	la a0, soma # salva o valor de soma em a0
+	ecall #chama o sistema
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t3 # salva o valor de t3(soma de A e B) em a0
+	ecall #chama o sistema
+	
+	
+	
+	# subtração A - B
+	sub t3, t0,t1 # subtração t0(A) e t1(B) salva no t3
+	
+	li a7, 4 # imprimir string
+	la a0, quebradelinha # salva o \n no a0
+	ecall #chama o sistema e imprime a quebra de linha
+	
+	li a7, 4 # imprimir string
+	la a0, sub # salva o valor de sub em a0
+	ecall #chama o sistema e imprime sub
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t3 # salva o valor de t3( A - B) em a0
+	ecall #chama o sistema
+	
+	
+	
+	# A and B
+	and t3, t0, t1 # t0(A) and t1(B) salvando no t3
+	
+	li a7, 4 # imprimir string
+	la a0, quebradelinha # salva o \n no a0
+	ecall #chama o sistema e imprime a quebra de linha
+	
+	li a7, 4 # imprimir string
+	la a0, and # salva o valor de and em a0
+	ecall #chama o sistema e imprime and
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t3 # salva o valor de t3( A and B) em a0
+	ecall #chama o sistema
+	
+	
+	
+	# A or B
+	or t3, t0, t1 # t0(A) or t1(B) salvando no t3
+	
+	li a7, 4 # imprimir string
+	la a0, quebradelinha # salva o \n no a0
+	ecall #chama o sistema e imprime a quebra de linha
+	
+	li a7, 4 # imprimir string
+	la a0, or # salva o valor de or em a0
+	ecall #chama o sistema e imprime or
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t3 # salva o valor de t3( A or B) em a0
+	ecall #chama o sistema
+	
+	
+	
+	# A xor B
+	xor t3, t0, t1 # t0(A) xor t1(B) salvando no t3
+	
+	li a7, 4 # imprimir string
+	la a0, quebradelinha # salva o \n no a0
+	ecall #chama o sistema e imprime a quebra de linha
+	
+	li a7, 4 # imprimir string
+	la a0, xor # salva o valor de xor em a0
+	ecall #chama o sistema e imprime xor
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t3 # salva o valor de t3( A xor B) em a0
+	ecall #chama o sistema
+	
+	
+	
+	# C and 31 mascara
+	andi t4, t2, 31 # t2(C) and 31 salvando no t4
+	
+	li a7, 4 # imprimir string
+	la a0, quebradelinha # salva o \n no a0
+	ecall #chama o sistema e imprime a quebra de linha
+	
+	li a7, 4 # imprimir string
+	la a0, mascara # salva o valor de mascara em a0
+	ecall #chama o sistema e imprime mascara
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t4 # salva o valor de t4( c and 31) em a0
+	ecall #chama o sistema
+	
+	
+	
+	# A SLL M(C and 31)
+	sll t3, t0, t4 # A sll M ( C and 31)
+	
+	li a7, 4 # imprimir string
+	la a0, quebradelinha # salva o \n no a0
+	ecall #chama o sistema e imprime a quebra de linha
+	
+	li a7, 4 # imprimir string
+	la a0, deslocamentoe # salva o valor de deslocamentoe "SLL(" em a0
+	ecall #chama o sistema e imprime deslocamentoe
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t4 # salva o valor de t4( c and 31) em a0
+	ecall #chama o sistema
+	
+	li a7, 4 # imprimir string
+	la a0, space # salva o valor de space "): " em a0
+	ecall #chama o sistema e imprime space
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t3 # salva o valor de t3( A SLL M) em a0
+	ecall #chama o sistema
+	
+	
+	
+	# B SRL M(C and 31)
+	srl t3, t1, t4 # B sll M ( C and 31)
+	
+	li a7, 4 # imprimir string
+	la a0, quebradelinha # salva o \n no a0
+	ecall #chama o sistema e imprime a quebra de linha
+	
+	li a7, 4 # imprimir string
+	la a0, deslocamentod # salva o valor de deslocamentod "SRL(" em a0
+	ecall #chama o sistema e imprime space
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t4 # salva o valor de t4( c and 31) em a0
+	ecall #chama o sistema
+	
+	li a7, 4 # imprimir string
+	la a0, space # salva o valor de space "): " em a0
+	ecall #chama o sistema e imprime space
+	
+	li a7, 1 # imprimir inteiro
+	mv a0, t3 # salva o valor de t3( A SRL M) em a0
+	ecall #chama o sistema
+	
+	
+	la a0, quebradelinha # adiciona o valor da string quebra em a0
+	li a7, 4 # print string \n
+	ecall #chama o sistema
+	
+	li a7, 10 # codigo para sair
+	ecall # chama sistema
